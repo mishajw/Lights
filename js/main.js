@@ -37,24 +37,42 @@ function Lights() {
   }
 
   function initObjects() {
-    var radius = 50,
-      segments = 16,
-      rings = 16;
+    
+    function makePhysicalLight(position, color) {
+      var radius = 1, 
+        segments = 16,
+        rings = 16;
 
-    var sphereMaterial = new THREE.MeshLambertMaterial(
-      { color: 0xCC0000 });
+      var bulb = new THREE.Mesh(
+        new THREE.SphereGeometry(
+          radius, segments, rings),
+        new THREE.MeshStandardMaterial({
+          emissive: color,
+          emissiveIntensity: 1,
+          color: 0x000000}));
 
-    var sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(
-        radius, segments, rings),
-      sphereMaterial);
-    scene.add(sphere);
+      var pointLight = new THREE.PointLight(color);
 
-    var pointLight = new THREE.PointLight(0xFFFFFF);
-    pointLight.position.x = 10;
-    pointLight.position.y = 50;
-    pointLight.position.z = 130;
-    scene.add(pointLight);
+      bulb.position.set(position.x, position.y, position.z);
+      pointLight.position.set(position.x, position.y, position.z);
+
+      scene.add(bulb);
+      scene.add(pointLight);
+    }
+
+    var ceiling = new THREE.Mesh(
+      new THREE.BoxGeometry(200, 200, 1),
+      new THREE.MeshLambertMaterial(
+        { color: 0x666666 }));
+    ceiling.position.set(0, 0, 0);
+    scene.add(ceiling);
+
+    var incr = 200 / 5;
+    for (var x = -100; x <= 100; x += incr) {
+      for (var y = -100; y <= 100; y += incr) {
+        makePhysicalLight({ x: x, y: y, z: 1 }, 0xFFFFFF * Math.random());
+      }
+    }
   }
 }
 
