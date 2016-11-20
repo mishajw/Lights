@@ -1,10 +1,10 @@
 
 function Lights() {
   
-  var container = document.getElementById('main-container');
+  var $container = $('#main-container');
 
-  var WIDTH = 400,
-    HEIGHT = 300;
+  var WIDTH = $container.width(),
+    HEIGHT = $container.height();
 
   var CEILING_SIZE = 200;
   
@@ -35,7 +35,7 @@ function Lights() {
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(WIDTH, HEIGHT);
 
-    container.appendChild(renderer.domElement);
+    $container.append(renderer.domElement);
   }
 
   function initObjects() {
