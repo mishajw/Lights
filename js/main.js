@@ -105,7 +105,7 @@ function Lights() {
 
     var ceiling = new THREE.Mesh(
       new THREE.BoxGeometry(CEILING_SIZE, CEILING_SIZE, 1),
-      new THREE.MeshLambertMaterial(
+      new THREE.MeshPhongMaterial(
         { color: 0x666666 }));
     ceiling.position.set(0, 0, 0);
     scene.add(ceiling);
