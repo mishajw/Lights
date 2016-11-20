@@ -40,9 +40,7 @@ function Lights() {
       for (var i = 0; i < lights.length; i++) {
         for (var j = 0; j < lights[i].length; j++) {
           var newIntensity = Math.random() > 0.5 ? 0 : 1;
-          lights[i][j].light.intensity = newIntensity;
-          lights[i][j].bulb.material.color.set(0xFFFFFF * newIntensity);
-          lights[i][j].bulb.material.emissive.set(0xFFFFFF * newIntensity);
+          changeLight(lights[i][j], 0xFFFFFF, newIntensity);
         }
       }
     }, 1000);
@@ -74,7 +72,6 @@ function Lights() {
   }
 
   function initObjects() {
-    
     function makePhysicalLight(position, color) {
       var radius = 1, 
         segments = 16,
@@ -121,6 +118,12 @@ function Lights() {
 
       lights.push(lightsRow);
     }
+  }
+
+  function changeLight(light, color, intensity) {
+    light.light.intensity = intensity;
+    light.bulb.material.color.set(color * intensity);
+    light.bulb.material.emissive.set(color * intensity);
   }
 }
 
