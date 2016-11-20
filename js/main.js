@@ -32,7 +32,7 @@ function Lights() {
       var dt = new Date().getTime() - lastFrameTime;
       scope.render(dt);
 
-      setTimeout(loop, 0);
+      setTimeout(loop, 1000 / 30);
     }
 
 
