@@ -52,7 +52,7 @@ function Lights() {
     for (var i = 0; i < lights.length; i++) {
       for (var j = 0; j < lights[i].length; j++) {
         var newIntensity = logicIncr % lights[i].length == j ? 0 : 1;
-        changeLight(lights[i][j], 0xFFFFFF, newIntensity);
+        changeLight(lights[i][j], 0xFF0000, newIntensity);
       }
     }
   }
@@ -127,6 +127,7 @@ function Lights() {
 
   function changeLight(light, color, intensity) {
     light.light.intensity = intensity;
+    light.light.color.set(color * intensity);
     light.bulb.material.color.set(color * intensity);
     light.bulb.material.emissive.set(color * intensity);
   }
