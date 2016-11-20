@@ -13,6 +13,10 @@ function Lights() {
     initObjects();
   }
 
+  this.render = function() {
+    renderer.render(scene, camera);
+  }
+
   function initCore() {
     var VIEW_ANGLE = 45,
       ASPECT = WIDTH / HEIGHT,
@@ -51,13 +55,12 @@ function Lights() {
     pointLight.position.y = 50;
     pointLight.position.z = 130;
     scene.add(pointLight);
-
-    renderer.render(scene, camera);
   }
 }
 
 $(function() {
   var lights = new Lights();
   lights.init();
+  lights.render();
 });
 
