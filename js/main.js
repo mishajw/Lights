@@ -29,8 +29,6 @@ function Lights() {
 
     var scope = this;
     function loop() {
-      console.log("Loop");
-
       var dt = new Date().getTime() - lastFrameTime;
       scope.render(dt);
 
