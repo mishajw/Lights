@@ -10,12 +10,46 @@ function Lights() {
   
   var renderer, camera, scene;
 
+  var lights = [];
+
   this.init = function() {
     initCore();
     initObjects();
+
+    window.requestAnimFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        function(callback) {
+          window.setTimeout(callback, 1000 / 60);
+        };
+    })();
+
+    var lastFrameTime = new Date().getTime();
+
+    var scope = this;
+    function loop() {
+      console.log("Loop");
+
+      var dt = new Date().getTime() - lastFrameTime;
+      scope.render(dt);
+
+      setTimeout(loop, 0);
+    }
+
+    loop();
   }
 
-  this.render = function() {
+  this.render = function(dt) {
+    for (var i = 0; i < lights.length; i++) {
+      for (var j = 0; j < lights[i].length; j++) {
+        scene.remove(lights[i][j].bulb);
+        scene.remove(lights[i][j].light);
+      }
+    }
+
+    initObjects();
+
     renderer.render(scene, camera);
   }
 
@@ -60,6 +94,11 @@ function Lights() {
 
       scene.add(bulb);
       scene.add(pointLight);
+
+      return {
+        bulb: bulb,
+        light: pointLight
+      };
     }
 
     var ceiling = new THREE.Mesh(
@@ -69,11 +108,16 @@ function Lights() {
     ceiling.position.set(0, 0, 0);
     scene.add(ceiling);
 
+    lights = [];
+
     var incr = CEILING_SIZE / 5;
     for (var x = -CEILING_SIZE / 2; x <= CEILING_SIZE / 2; x += incr) {
+      var lightsRow = [];
       for (var y = -CEILING_SIZE / 2; y <= CEILING_SIZE / 2; y += incr) {
-        makePhysicalLight({ x: x, y: y, z: 1 }, 0xFFFFFF * Math.random());
+        lightsRow.push(makePhysicalLight({ x: x, y: y, z: 1 }, 0xFFFFFF * Math.random()));
       }
+
+      lights.push(lightsRow);
     }
   }
 }
