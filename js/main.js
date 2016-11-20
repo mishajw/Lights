@@ -21,5 +21,26 @@ $(function() {
   renderer.setSize(WIDTH, HEIGHT);
 
   container.appendChild(renderer.domElement);
+
+  var radius = 50,
+    segments = 16,
+    rings = 16;
+
+  var sphereMaterial = new THREE.MeshLambertMaterial(
+    { color: 0xCC0000 });
+
+  var sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(
+      radius, segments, rings),
+    sphereMaterial);
+  scene.add(sphere);
+
+  var pointLight = new THREE.PointLight(0xFFFFFF);
+  pointLight.position.x = 10;
+  pointLight.position.y = 50;
+  pointLight.position.z = 130;
+  scene.add(pointLight);
+
+  renderer.render(scene, camera);
 });
 
