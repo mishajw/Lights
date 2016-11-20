@@ -36,14 +36,17 @@ function Lights() {
     }
 
 
+    var incr = 0;
     setInterval(function() {
       for (var i = 0; i < lights.length; i++) {
         for (var j = 0; j < lights[i].length; j++) {
-          var newIntensity = Math.random() > 0.5 ? 0 : 1;
+          var newIntensity = incr % lights[i].length == j ? 0 : 1;
           changeLight(lights[i][j], 0xFFFFFF, newIntensity);
         }
       }
-    }, 1000);
+
+      incr++;
+    }, 100);
 
     loop();
   }
@@ -113,7 +116,7 @@ function Lights() {
     for (var x = -CEILING_SIZE / 2; x <= CEILING_SIZE / 2; x += incr) {
       var lightsRow = [];
       for (var y = -CEILING_SIZE / 2; y <= CEILING_SIZE / 2; y += incr) {
-        lightsRow.push(makePhysicalLight({ x: x, y: y, z: 1 }, 0xFFFFFF/*  * Math.random() */));
+        lightsRow.push(makePhysicalLight({ x: x, y: y, z: 3 }, 0xFFFFFF));
       }
 
       lights.push(lightsRow);
