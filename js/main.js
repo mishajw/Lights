@@ -5,6 +5,8 @@ function Lights() {
 
   var WIDTH = 400,
     HEIGHT = 300;
+
+  var CEILING_SIZE = 200;
   
   var renderer, camera, scene;
 
@@ -61,15 +63,15 @@ function Lights() {
     }
 
     var ceiling = new THREE.Mesh(
-      new THREE.BoxGeometry(200, 200, 1),
+      new THREE.BoxGeometry(CEILING_SIZE, CEILING_SIZE, 1),
       new THREE.MeshLambertMaterial(
         { color: 0x666666 }));
     ceiling.position.set(0, 0, 0);
     scene.add(ceiling);
 
-    var incr = 200 / 5;
-    for (var x = -100; x <= 100; x += incr) {
-      for (var y = -100; y <= 100; y += incr) {
+    var incr = CEILING_SIZE / 5;
+    for (var x = -CEILING_SIZE / 2; x <= CEILING_SIZE / 2; x += incr) {
+      for (var y = -CEILING_SIZE / 2; y <= CEILING_SIZE / 2; y += incr) {
         makePhysicalLight({ x: x, y: y, z: 1 }, 0xFFFFFF * Math.random());
       }
     }
