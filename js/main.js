@@ -35,18 +35,19 @@ function Lights() {
       setTimeout(loop, 0);
     }
 
+
+    setInterval(function() {
+      for (var i = 0; i < lights.length; i++) {
+        for (var j = 0; j < lights[i].length; j++) {
+          lights[i][j].light.intensity = Math.random() > 0.5 ? 0 : 1;
+        }
+      }
+    }, 1000);
+
     loop();
   }
 
   this.render = function(dt) {
-    for (var i = 0; i < lights.length; i++) {
-      for (var j = 0; j < lights[i].length; j++) {
-        scene.remove(lights[i][j].bulb);
-        scene.remove(lights[i][j].light);
-      }
-    }
-
-    initObjects();
 
     renderer.render(scene, camera);
   }
@@ -86,6 +87,7 @@ function Lights() {
           color: 0x000000}));
 
       var pointLight = new THREE.PointLight(color);
+      pointLight.transparent = true;
 
       bulb.position.set(position.x, position.y, position.z);
       pointLight.position.set(position.x, position.y, position.z);
