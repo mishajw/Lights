@@ -39,7 +39,10 @@ function Lights() {
     setInterval(function() {
       for (var i = 0; i < lights.length; i++) {
         for (var j = 0; j < lights[i].length; j++) {
-          lights[i][j].light.intensity = Math.random() > 0.5 ? 0 : 1;
+          var newIntensity = Math.random() > 0.5 ? 0 : 1;
+          lights[i][j].light.intensity = newIntensity;
+          lights[i][j].bulb.material.color.set(0xFFFFFF * newIntensity);
+          lights[i][j].bulb.material.emissive.set(0xFFFFFF * newIntensity);
         }
       }
     }, 1000);
@@ -48,7 +51,6 @@ function Lights() {
   }
 
   this.render = function(dt) {
-
     renderer.render(scene, camera);
   }
 
@@ -114,7 +116,7 @@ function Lights() {
     for (var x = -CEILING_SIZE / 2; x <= CEILING_SIZE / 2; x += incr) {
       var lightsRow = [];
       for (var y = -CEILING_SIZE / 2; y <= CEILING_SIZE / 2; y += incr) {
-        lightsRow.push(makePhysicalLight({ x: x, y: y, z: 1 }, 0xFFFFFF * Math.random()));
+        lightsRow.push(makePhysicalLight({ x: x, y: y, z: 1 }, 0xFFFFFF/*  * Math.random() */));
       }
 
       lights.push(lightsRow);
