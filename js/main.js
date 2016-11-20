@@ -7,8 +7,13 @@ function Lights() {
     HEIGHT = $container.height();
 
   var CEILING_SIZE = 200;
+
+  var RENDER_RATE = 1000 / 30,
+    LOGIC_RATE = 100;
   
   var renderer, camera, scene;
+
+  var logicIncr = 0;
 
   var lights = [];
 
@@ -25,34 +30,31 @@ function Lights() {
         };
     })();
 
-    var lastFrameTime = new Date().getTime();
-
     var scope = this;
+
     function loop() {
-      var dt = new Date().getTime() - lastFrameTime;
-      scope.render(dt);
-
-      setTimeout(loop, 1000 / 30);
+      scope.render();
+      setTimeout(loop, RENDER_RATE);
     }
-
-
-    var incr = 0;
-    setInterval(function() {
-      for (var i = 0; i < lights.length; i++) {
-        for (var j = 0; j < lights[i].length; j++) {
-          var newIntensity = incr % lights[i].length == j ? 0 : 1;
-          changeLight(lights[i][j], 0xFFFFFF, newIntensity);
-        }
-      }
-
-      incr++;
-    }, 100);
-
     loop();
+
+    setInterval(function() {
+      scope.logic();
+      logicIncr++;
+    }, LOGIC_RATE);
   }
 
-  this.render = function(dt) {
+  this.render = function() {
     renderer.render(scene, camera);
+  }
+
+  this.logic = function() {
+    for (var i = 0; i < lights.length; i++) {
+      for (var j = 0; j < lights[i].length; j++) {
+        var newIntensity = logicIncr % lights[i].length == j ? 0 : 1;
+        changeLight(lights[i][j], 0xFFFFFF, newIntensity);
+      }
+    }
   }
 
   function initCore() {
